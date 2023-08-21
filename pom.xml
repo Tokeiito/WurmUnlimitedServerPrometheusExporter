@@ -6,7 +6,7 @@
 
     <groupId>org.tokeiito.wurmunlimited.mods.statistics</groupId>
     <artifactId>Statistics</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -61,10 +61,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/</sourceDirectory>
-        <directory>out/${project.name.lowercase}</directory>
-        <testSourceDirectory>test</testSourceDirectory>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -75,11 +71,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <outputDirectory>out/jar/${project.name.lowercase}</outputDirectory>
                     <finalName>${project.name.lowercase}</finalName>
-                    <excludes>
-                        <exclude>**/Trad*</exclude>
-                    </excludes>
                     <archive>
                         <manifest>
                             <mainClass>org.tokeiito.wurmunlimited.mods.statistics.StatisticsMod</mainClass>
@@ -104,10 +96,12 @@
                         <configuration>
                             <outputDirectory>${folder.mods}</outputDirectory>
                             <overwrite>true</overwrite>
-
                             <resources>
                                 <resource>
-                                    <directory>${project.basedir}/out/jar/</directory>
+                                    <directory>${project.basedir}/target</directory>
+                                    <includes>
+                                        <include>${project.name.lowercase}.jar</include>
+                                    </includes>
                                 </resource>
                                 <resource>
                                     <directory>${project.basedir}/dist</directory>

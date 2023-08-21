@@ -8,8 +8,11 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/out/jar/</directory>
-            <outputDirectory />
+            <directory>${project.basedir}/target/</directory>
+            <includes>
+                <include>${project.name.lowercase}.jar</include>
+            </includes>
+            <outputDirectory>${project.name.lowercase}</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>${project.basedir}/dist/</directory>

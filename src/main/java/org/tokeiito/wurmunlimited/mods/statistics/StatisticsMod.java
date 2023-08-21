@@ -17,6 +17,8 @@ public class StatisticsMod implements WurmServerMod, Initable, Configurable, Ser
 	
 	private int serverPort = 5315;
 	private String serverAddress = "127.0.0.1";
+	private long cacheTimeOut = 30;
+	private long cacheCheckInterval = 15;
 	
 	@Override
 	public void onServerStarted() {
@@ -38,13 +40,18 @@ public class StatisticsMod implements WurmServerMod, Initable, Configurable, Ser
 
 	@Override
 	public void configure(Properties properties) {
-		this.serverPort = Integer.parseInt(properties.getProperty("serverPort", Integer.toString(serverPort)));
+		this.serverPort = Integer.parseInt(properties.getProperty("serverPort", Integer.toString(this.serverPort)));
 		this.serverAddress = properties.getProperty("serverAddress", serverAddress);
+		this.cacheTimeOut = Long.parseLong(properties.getProperty("cacheTimeOut", Long.toString(this.cacheTimeOut)));
+		this.cacheCheckInterval = Long.parseLong(properties.getProperty("cacheCheckInterval", Long.toString(this.cacheCheckInterval)));
 		
-		logger.info("serverPort: " + serverPort);
+		logger.info("serverPort: %o" + serverPort);
 		logger.info("serverAddress: " + serverAddress);
+		logger.info("cacheTimeOut: " + this.cacheTimeOut);
+		logger.info("cacheCheckInterval: " + this.cacheCheckInterval);
 		
 		HttpServerLauncher.getInstance().configure(this.serverAddress, this.serverPort);
+		StatisticsReport.getInstance().configure(this.cacheTimeOut, this.cacheCheckInterval);
 	}
 
 	@Override

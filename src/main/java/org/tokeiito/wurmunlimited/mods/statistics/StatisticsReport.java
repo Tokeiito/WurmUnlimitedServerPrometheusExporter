@@ -1,0 +1,117 @@
+package org.tokeiito.wurmunlimited.mods.statistics;
+
+import org.tokeiito.wurmunlimited.mods.statistics.cache.InMemoryCache;
+
+import com.wurmonline.server.Items;
+import com.wurmonline.server.creatures.CreatureTemplateIds;
+import com.wurmonline.server.creatures.Creatures;
+
+class StatisticsReport {
+	private static StatisticsReport instance;
+	
+	private final InMemoryCache<String, Integer> cache = new InMemoryCache<>(5, 2);
+	 	
+	public static StatisticsReport getInstance() {
+		if (instance == null) {
+			instance = new StatisticsReport();
+		}
+		return instance;
+	}
+
+	public void configure(long cacheTimeOut, long cacheCheckInterval) {
+		this.cache.configure(cacheTimeOut, cacheCheckInterval);
+	}		
+	
+	public String getOpenTelemetryResponse() {
+		String response = "";
+		response += buildCreaturesStatistics();
+		response += buildItemsStatistics();
+		
+		return response;
+	}
+	
+	private String buildCreaturesStatistics() {
+		return "# HELP wu_number_of_creatures_total The total number of creatures.\n"
+				+ "# TYPE wu_number_of_creatures_total counter\n"
+				+ "wu_number_of_creatures_total{type=\"agro\"} " + this.getNumberOfAggroCreatures() + "\n"
+				+ "wu_number_of_creatures_total{type=\"nice\"} " + this.getNumberOfNiceCreatures()+"\n"
+			    + "wu_number_of_creatures_total{type=\"unique\"} " + this.getNumberOfUnique()+"\n";
+	}
+	
+	private String buildItemsStatistics() {
+		return "# HELP wu_number_of_items_total The total number of items.\n"
+				+ "# TYPE wu_number_of_items_total counter\n"
+				+ "wu_number_of_items_total " + this.getNumberOfNormalItems() + "\n";
+	}
+	
+	private int getNumberOfNormalItems() {
+		Integer cachedValue = cache.get("items_normal");
+
+		if(cachedValue != null) {
+			return cachedValue;
+		} else {
+			Integer value = Items.getNumberOfNormalItems();
+			cache.put("items_normal", value);
+
+			return value;
+		}
+	}
+
+	private int getNumberOfUnique() {
+		Integer cachedValue = cache.get("creatures_unique");
+
+		if(cachedValue != null) {
+			return cachedValue;
+		} else {
+
+			int count = 0;				
+			int[] uniqueIds = {
+					CreatureTemplateIds.DRAGON_BLACK_CID,
+					CreatureTemplateIds.DRAGON_BLUE_CID,
+					CreatureTemplateIds.DRAGON_GREEN_CID,
+					CreatureTemplateIds.DRAGON_RED_CID,
+					CreatureTemplateIds.DRAGON_WHITE_CID,
+					CreatureTemplateIds.DRAKE_BLACK_CID,
+					CreatureTemplateIds.DRAKE_BLUE_CID,
+					CreatureTemplateIds.DRAKE_GREEN_CID,
+					CreatureTemplateIds.DRAKE_RED_CID,
+					CreatureTemplateIds.DRAKE_WHITE_CID,
+					CreatureTemplateIds.CYCLOPS_CID,
+					CreatureTemplateIds.FOREST_GIANT_CID,
+					CreatureTemplateIds.GOBLIN_LEADER_CID,
+					CreatureTemplateIds.TROLL_KING_CID
+					};
+
+			for(int id: uniqueIds) {
+				count += Creatures.getInstance().getNumberOfCreaturesWithTemplate(id);
+			}
+			cache.put("creatures_unique", count);
+
+			return count;
+		}
+	}
+
+	private int getNumberOfAggroCreatures() {
+		Integer cachedValue = cache.get("creatures_agro");
+
+		if (cachedValue != null) {
+			return cachedValue;
+		} else {
+			Integer value = Creatures.getInstance().getNumberOfAgg();
+			cache.put("creatures_agro", value);
+			return value;
+		}
+	}
+
+	private int getNumberOfNiceCreatures() {
+		Integer cachedValue = cache.get("creatures_nice");
+
+		if (cachedValue != null) {
+			return cachedValue;
+		} else {
+			Integer value = Creatures.getInstance().getNumberOfNice();
+			cache.put("creatures_nice", value);
+			return value;
+		}
+	}
+}

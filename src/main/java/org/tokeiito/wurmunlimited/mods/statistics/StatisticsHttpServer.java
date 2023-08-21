@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -16,9 +15,6 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import com.wurmonline.server.Server;
-import com.wurmonline.server.creatures.CreatureTemplateIds;
-import com.wurmonline.server.creatures.Creatures;
 
 @SuppressWarnings("restriction")
 public class StatisticsHttpServer {
@@ -29,8 +25,6 @@ private final Logger logger = Logger.getLogger(StatisticsHttpServer.class.getNam
 	
 	public StatisticsHttpServer(int port, String serverIpAddress, int maxThreads) throws IOException {
 		
-		Server.getInstance().getExternalIp();
-
 		InetAddress addr = InetAddress.getByAddress(this.IPToBytes(serverIpAddress));
 		
 		executor = new ThreadPoolExecutor(0, maxThreads, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
