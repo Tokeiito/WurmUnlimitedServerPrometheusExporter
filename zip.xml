@@ -12,10 +12,12 @@
             <outputDirectory />
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}</directory>
+            <directory>${project.basedir}/dist/</directory>
             <includes>
                 <include>${project.name.lowercase}.properties</include>
+                <include>${project.name.lowercase}.config</include>
             </includes>
+            <outputDirectory />
         </fileSet>
     </fileSets>
 </assembly>

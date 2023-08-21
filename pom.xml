@@ -6,7 +6,7 @@
 
     <groupId>org.tokeiito.wurmunlimited.mods.statistics</groupId>
     <artifactId>Statistics</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -128,7 +128,7 @@
                     <descriptors>
                         <descriptor>zip.xml</descriptor>
                     </descriptors>
-                    <finalName>${project.name.lowercase}</finalName>
+                    <finalName>${project.name.lowercase}-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>

@@ -3,19 +3,19 @@ package org.tokeiito.wurmunlimited.mods.statistics;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class ModHttpServerImpl {
+public class HttpServerLauncher {
 	
 	private static Logger logger = Logger.getLogger(StatisticsMod.class.getName());
-	private static ModHttpServerImpl instance;
+	private static HttpServerLauncher instance;
 	 	
 	private int port = 0;
 	private String serverAddress = null;
 	private int maxThreads = 1;
 	private StatisticsHttpServer statisticsHttpServer;
 
-	public static synchronized ModHttpServerImpl getInstance() {
+	public static synchronized HttpServerLauncher getInstance() {
 		if (instance == null) {
-			instance = new ModHttpServerImpl();
+			instance = new HttpServerLauncher();
 		}
 		return instance;
 	}

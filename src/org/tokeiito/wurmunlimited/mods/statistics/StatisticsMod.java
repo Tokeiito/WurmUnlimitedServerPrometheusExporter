@@ -21,7 +21,7 @@ public class StatisticsMod implements WurmServerMod, Initable, Configurable, Ser
 	@Override
 	public void onServerStarted() {
 		try {
-			ModHttpServerImpl.getInstance().start();
+			HttpServerLauncher.getInstance().start();
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}		
@@ -30,7 +30,7 @@ public class StatisticsMod implements WurmServerMod, Initable, Configurable, Ser
 	@Override
 	public void onServerShutdown() {
 		try {
-			ModHttpServerImpl.getInstance().stop();
+			HttpServerLauncher.getInstance().stop();
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}		
@@ -44,7 +44,7 @@ public class StatisticsMod implements WurmServerMod, Initable, Configurable, Ser
 		logger.info("serverPort: " + serverPort);
 		logger.info("serverAddress: " + serverAddress);
 		
-		ModHttpServerImpl.getInstance().configure(this.serverAddress, this.serverPort);
+		HttpServerLauncher.getInstance().configure(this.serverAddress, this.serverPort);
 	}
 
 	@Override
