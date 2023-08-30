@@ -45,7 +45,7 @@ public class StatisticsMod implements WurmServerMod, Initable, Configurable, Ser
 		this.cacheTimeOut = Long.parseLong(properties.getProperty("cacheTimeOut", Long.toString(this.cacheTimeOut)));
 		this.cacheCheckInterval = Long.parseLong(properties.getProperty("cacheCheckInterval", Long.toString(this.cacheCheckInterval)));
 		
-		logger.info("serverPort: %o" + serverPort);
+		logger.info("serverPort: " + serverPort);
 		logger.info("serverAddress: " + serverAddress);
 		logger.info("cacheTimeOut: " + this.cacheTimeOut);
 		logger.info("cacheCheckInterval: " + this.cacheCheckInterval);
